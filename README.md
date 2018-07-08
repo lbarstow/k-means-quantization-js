@@ -1,3 +1,12 @@
+This is an application to turn an image into a cross stitch pattern. It was adapted
+from "https://github.com/dstein64/k-means-quantization-js"
+
+TODO:
+-add ability to add maximum height or width ( app will choose the smaller of the two
+  and calculate squares based off of this)
+-convert color to closest DMC floss
+
+
 k-means Image Color Quantization
 ================================
 

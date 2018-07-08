@@ -3,11 +3,20 @@
 // *************************************************
 
 const MAX_K_MEANS_PIXELS = 50000;
-const PATH = "moons.jpg"
+//using DATA from data.js this will need to be fixed
 //*************************************************
 //* Image/Data Processing
 //*************************************************
-
+//distance between points in 3d space
+let euclidianDistance = (p1, p2) =>{
+  let sum = 0;
+  for(let i=0; i<3; i++){
+    let square = Math.pow((p1[i] - p2[i]), 2);
+    sum += square;
+  }
+  sum = Math.sqrt(sum);
+  return sum;
+};
 // Checks for equality of elements in two arrays.
 let arrays_equal =  (a1, a2) =>{
   if (a1.length !== a2.length) return false;
@@ -39,7 +48,7 @@ let get_pixel_dataset = (img, resized_pixels) => {
   let canvas_width = img.width;
   let canvas_height = img.height;
   if (resized_pixels > 0 && img_n_pixels > resized_pixels) {
-    let rescaled = rescale_dimensions(img.width, img.height, resized_pixels)
+    let rescaled = rescale_dimensions(img.width, img.height, resized_pixels);
     canvas_width = rescaled[0];
     canvas_height = rescaled[1];
   }
@@ -296,6 +305,10 @@ quantize_btn_element.addEventListener("click", function() {
           // Use a fixed maximum so that k-means works fast.
           let pixel_dataset = get_pixel_dataset(img, MAX_K_MEANS_PIXELS);
           let centroids = k_means(pixel_dataset, k);
+
+          for (let i = 0; i < centroids.length; ++i) {
+            console.log(`${centroids[i][0]}, ${centroids[i][1]}, ${centroids[i][2]}`)
+          }
           let data_url = quantize(img, centroids);
           quantized_img_element.src = data_url;
           show_modal();

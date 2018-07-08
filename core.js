@@ -47,7 +47,7 @@ var get_pixel_dataset = function(img, resized_pixels) {
   canvas.height = canvas_height;
   var canvas_n_pixels = canvas_width * canvas_height;
   var context = canvas.getContext("2d");
-  context.drawImage(img, 0, 0, canvas_width, canvas_height);  
+  context.drawImage(img, 0, 0, canvas_width, canvas_height);
   var flattened_dataset = context.getImageData(
       0, 0, canvas_width, canvas_height).data;
   var n_channels = flattened_dataset.length / canvas_n_pixels;
@@ -151,7 +151,7 @@ var quantize = function(img, colors) {
   source_canvas.height = height;
   var source_context = source_canvas.getContext("2d");
   source_context.drawImage(img, 0, 0, width, height);
-  
+
   // flattened_*_data = [R, G, B, a, R, G, B, a, ...] where
   // (R, G, B, a) groups each correspond to a single pixel, and they are
   // column-major ordered.
@@ -159,10 +159,10 @@ var quantize = function(img, colors) {
       0, 0, width, height).data;
   var n_pixels = width * height;
   var n_channels = flattened_source_data.length / n_pixels;
-  
+
   var flattened_quantized_data = new Uint8ClampedArray(
       flattened_source_data.length);
-  
+
   // Set each pixel to its nearest color.
   var current_pixel = new Uint8ClampedArray(n_channels);
   for (var i = 0; i < flattened_source_data.length; i += n_channels) {
@@ -176,12 +176,12 @@ var quantize = function(img, colors) {
       flattened_quantized_data[i+j] = nearest_color[j];
     }
   }
-  
+
   var quantized_canvas = document.createElement("canvas");
   quantized_canvas.width = width;
   quantized_canvas.height = height;
   var quantized_context = quantized_canvas.getContext("2d");
-  
+
   var image = quantized_context.createImageData(width, height);
   image.data.set(flattened_quantized_data);
   quantized_context.putImageData(image, 0, 0);
